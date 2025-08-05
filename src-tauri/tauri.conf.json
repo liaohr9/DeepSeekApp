@@ -1,0 +1,36 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "AI",
+  "version": "0.1.0",
+  "identifier": "com.ai.assistant",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "https://chat.deepseek.com/"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "AI",
+        "width": 1200,
+        "height": 800,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": false,
+        "hiddenTitle": true,
+        "titleBarStyle": "Overlay"
+      }
+    ],
+    "security": {
+      "csp": null,
+      "dangerousDisableAssetCspModification": true
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/logo.png",
+      "icons/logo.ico"
+    ]
+  }
+}

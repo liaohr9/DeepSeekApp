@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "@tauri-apps/cli": "next"
+  }
+}
