@@ -62,12 +62,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List build output (Debug)
+        shell: bash
+        run: |
+          echo "Listing target directory structure:"
+          find src-tauri/target -name "*.exe" -o -name "*.dmg" -o -name "*.deb" -o -name "*.AppImage" -o -name "*.msi" -o -name "*.app" 2>/dev/null || true
+          ls -la src-tauri/target/${{ matrix.platform.target }}/release/ 2>/dev/null || true
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform.name }}
           path: |
-            src-tauri/target/${{ matrix.platform.target }}/release/bundle/**/*
+            src-tauri/target/${{ matrix.platform.target }}/release/bundle/
+            src-tauri/target/${{ matrix.platform.target }}/release/*.exe
+            src-tauri/target/${{ matrix.platform.target }}/release/*.dmg
+            src-tauri/target/${{ matrix.platform.target }}/release/*.deb
+            src-tauri/target/${{ matrix.platform.target }}/release/*.AppImage
+            src-tauri/target/${{ matrix.platform.target }}/release/*.msi
+          if-no-files-found: warn
 
   release:
     if: startsWith(github.ref, 'refs/tags/')
