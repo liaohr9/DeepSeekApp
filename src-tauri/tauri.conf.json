@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "AI",
-  "version": "0.1.0",
-  "identifier": "com.ai.assistant",
+  "productName": "ds本地化",
+  "version": "0.1.1",
+  "identifier": "com.liaohr9.assistant",
   "build": {
     "frontendDist": "https://chat.deepseek.com/",
     "devUrl": "https://chat.deepseek.com/"

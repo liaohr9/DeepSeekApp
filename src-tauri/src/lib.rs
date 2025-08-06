@@ -81,45 +81,35 @@ pub fn run() {
             }
 
             // 注册全局快捷键
-            use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut};
-            use std::sync::{Arc, Mutex};
-            use std::time::{Duration, Instant};
+            use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
             let alt_z_shortcut = Shortcut::new(Some(Modifiers::ALT), Code::KeyZ);
-            
-            // 添加防抖机制，防止快速重复触发
-            let last_trigger = Arc::new(Mutex::new(Instant::now() - Duration::from_secs(1)));
-            let last_trigger_clone = last_trigger.clone();
             
             app.handle().plugin(
                 tauri_plugin_global_shortcut::Builder::new().with_handler(move |_app_handle, shortcut, _event| {
                     if shortcut == &alt_z_shortcut {
-                        // 防抖：如果距离上次触发不到300毫秒，则忽略
-                        let mut last_time = last_trigger_clone.lock().unwrap();
-                        let now = Instant::now();
-                        
-                        if now.duration_since(*last_time) < Duration::from_millis(300) {
-                            return;
-                        }
-                        
-                        *last_time = now;
-                        // println!("Alt-Z Detected!");
-                        
-                        // 切换窗口显示/隐藏状态
-                        if let Some(window) = _app_handle.get_webview_window("main") {
-                            match window.is_visible() {
-                                Ok(true) => {
-                                    // println!("Hiding window");
-                                    let _ = window.hide();
+                        match _event.state() {
+                            ShortcutState::Pressed => {
+                                // 切换窗口显示/隐藏状态
+                                if let Some(window) = _app_handle.get_webview_window("main") {
+                                    match window.is_visible() {
+                                        Ok(true) => {
+                                            // println!("Hiding window");
+                                            let _ = window.hide();
+                                        }
+                                        Ok(false) => {
+                                            // println!("Showing window");
+                                            let _ = window.show();
+                                            let _ = window.set_focus();
+                                        }
+                                        Err(e) => {
+                                            println!("Error checking window visibility: {:?}", e);
+                                        }
+                                    }
                                 }
-                                Ok(false) => {
-                                    // println!("Showing window");
-                                    let _ = window.show();
-                                    let _ = window.set_focus();
-                                }
-                                Err(e) => {
-                                    println!("Error checking window visibility: {:?}", e);
-                                }
+                            }
+                            ShortcutState::Released => {
+                                // println!("Shortcut released");
                             }
                         }
                     }
