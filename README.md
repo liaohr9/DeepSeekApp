@@ -39,8 +39,32 @@ npm run tauri dev
 ### 构建应用
 
 ```bash
-npm run tauri build
+npm run build
 ```
+
+### 多平台构建
+
+#### 本地构建（Windows）
+```bash
+npm run build                    # Windows x64
+```
+
+#### 苹果 M 芯片构建
+由于交叉编译的复杂性，建议使用 GitHub Actions 进行构建：
+
+1. 推送代码到 GitHub
+2. 创建 tag 触发发布构建：
+   ```bash
+   git tag v1.0.0
+   git push origin v1.0.0
+   ```
+3. GitHub Actions 会自动为所有平台（包括苹果 M 芯片）构建并发布
+
+#### 支持的平台
+- Windows x64
+- macOS Intel (x86_64)
+- macOS Apple Silicon (ARM64)
+- Linux x64
 
 ## 配置
 
