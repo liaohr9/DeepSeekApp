@@ -24,3 +24,14 @@ log = "0.4"
 tauri = { version = "2.0.0-rc.17", features = ["tray-icon", "image-ico", "image-png"] }
 tauri-plugin-log = "2.0.0-rc"
 tauri-plugin-global-shortcut = "2.0.0-rc"
+
+
+[profile.dev]
+incremental = true # 以更小的步骤编译你的二进制文件。
+
+[profile.release]
+codegen-units = 1 # 允许 LLVM 进行更好的优化。
+lto = true # 启用链接时优化。
+opt-level = "s" # 优先考虑二进制文件大小。如果优先考虑速度，请使用 `3`。
+panic = "abort" # 通过禁用恐慌处理程序提高性能。
+strip = true # 确保删除调试符号。

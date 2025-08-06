@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "identifier": "com.ai.assistant",
   "build": {
-    "frontendDist": "../dist",
+    "frontendDist": "https://chat.deepseek.com/",
     "devUrl": "https://chat.deepseek.com/"
   },
   "app": {
@@ -27,7 +27,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": [],
     "icon": [
       "icons/logo.png",
       "icons/logo.ico"
